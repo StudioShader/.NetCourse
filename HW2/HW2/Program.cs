@@ -18,7 +18,12 @@ namespace HW2
             }
             Mass.Remove(6);
             Console.WriteLine(Mass.Contains(6));
+            ImmutableType my = ImmutableType.ConstructArticle("some name", "article");
+            ImmutableType another = my.ChangeArticleTo("some other article");
+            Console.WriteLine("my: " + my.Name + " article: " + my.Article);
+            Console.WriteLine("another: " + another.Name + " article: " + another.Article);
             Console.ReadLine();
+
         }
     }
 }
