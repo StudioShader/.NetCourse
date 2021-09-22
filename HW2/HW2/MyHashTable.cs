@@ -6,8 +6,13 @@ using System.Threading.Tasks;
 
 namespace HW2
 {
+    // немного общих комментариев по оформлению кода
+    // старайтесь не загромождать код лишними конструкциями. Например, обращениями через ключевое слово this.*
+    // Чем концептуально отличаются поля IsEmpty и IsDeleted? Возможно, от одного из них будет лучше отказаться
     class MyHashTable<T>: IEnumerable<T> where T: IComparable
     {
+        // обычно свойства используются для контрактов, т.е. когда предполагается, что ими будут пользоваться снаружи класса.
+        // в вашем случае они используются только для внутренних нужд и их вполне можно сделать закрытыми полями: private int size;
         private int Size { get; set; }
         private int Count { get; set; }
         private HashElement<T>[] Storage { get; set; }
@@ -23,7 +28,7 @@ namespace HW2
             this.Storage = new HashElement<T>[this.Size];
             this.Count = 0;
         }
-
+        // GetHash возвращает int, который может быть отрицательным. что произойдет тогда при вызове this.Storage[index]?
         public bool Add(T value)
         {
             if (this.Count >= this.Size)
