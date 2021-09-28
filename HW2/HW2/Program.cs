@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace HW2
 {
@@ -58,8 +59,26 @@ namespace HW2
             ImmutableType another = my.ChangeArticleTo("some other article");
             Console.WriteLine("my: " + my.Name + " article: " + my.Article);
             Console.WriteLine("another: " + another.Name + " article: " + another.Article);
-            Console.ReadLine();
-
+            var x = new
+            {
+                Items = B
+            };
+            Console.WriteLine(x.Items.Name);
+            x.Items.ChangeName();
+            Console.WriteLine(x.Items.Name);
+            /*var some = x.Items;
+            Console.WriteLine(some.Current);
+            Console.WriteLine(x);
+            unsafe
+            {
+                int* ptr = &x;
+            }
+            Console.WriteLine(x.Items);
+            Console.WriteLine(x.Items.MoveNext());
+            Console.WriteLine(x.Items.Current);
+            while (x.Items.MoveNext())
+                Console.WriteLine(x.Items.Current);
+            Console.ReadLine();*/
         }
     }
 }
