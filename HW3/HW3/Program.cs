@@ -4,12 +4,15 @@ namespace HW3
 {
     public sealed class Node<T>
     {
+// публичные методы и свойства начинайте с заглавной буквы
+// вставляйте пустые строки между логическими блоками кода
         public T value { get; }
         public Node<T> next;
         public Node(T _value)
         {
             value = _value;
         }
+
         public static Node<T> FindCommonNode(Node<T> head1, Node<T> head2)
         {
             var current1 = head1;
@@ -31,10 +34,15 @@ namespace HW3
             return null;
         }
     }
+
     class Program
     {
         static void Main(string[] args)
         {
+// для проверки работоспособности вы требуете довольно много действий со стороны пользователя
+// лучше всего это оформить в виде нескольких автоматических проверок, где проверяются наиболее интересные пограничные случаи
+// а еще лучше начать использовать юнит-тесты, как это мы делаем при разборе примеров на практике
+
             // FOR INTS   -----   x>3 что бы в третьем элементе два списка совпали по ссылке
             int x = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("nmber for first?");
