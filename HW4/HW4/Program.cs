@@ -3,14 +3,19 @@ using System.Collections.Generic;
 
 namespace HW4
 {
+    // Общее замечание: выносите решения отдельных задач в отдельные файлы или директории
+
+    // старайтесь называть классы и интерфейсы с большой буквы, а интерфейсы начинать с заглавной I: IFirstSome, ISecondSome, SomeClass, horse etc.
     interface firstSome
     {
         public void ToSome();
     }
+
     interface secondSome
     {
         public void ToSome();
     }
+
     public abstract class someClass
     {
         public abstract void ToSome();
@@ -22,32 +27,41 @@ namespace HW4
         {
             Console.WriteLine("form second interface");
         }
+
         void firstSome.ToSome()
         {
             Console.WriteLine("form first interface");
         }
+
         public override void ToSome()
         {
             Console.WriteLine("form base abstract");
         }
     }
+
+    // Задание 2
     class horse : IEquatable<horse>, IComparable<horse>
     {
+        // публичные поля в классе - не самая лучшая практика, лучше использовать свойства (property). об этом будем говорить на лекциях, когда дойдем до ООП 
         public bool horseshoe = false;
         public int horsepower = 1;
         public HorseMark horsemark;
+
+        // енумераторы (как и любые подтипы) определяйте в начале класса
         public enum HorseMark
         {
             heavy,
             jumpy,
             slow
         }
+
         public horse(bool st, int hp, HorseMark mark_)
         {
             horseshoe = st;
             horsepower = hp;
             horsemark = mark_;
         }
+
         public static bool operator >(horse a, horse b) => (a.horsepower * Convert.ToInt32(a.horseshoe) > b.horsepower * Convert.ToInt32(b.horseshoe));
         public static bool operator <(horse a, horse b) => !(a > b);
 
@@ -82,6 +96,7 @@ namespace HW4
             }
             return new Car(h.horseshoe, h.horsepower * 20, Car.Mark.nisan);
         }
+
         public static explicit operator horse(Car h)
         {
             if (h.mark == Car.Mark.BMW)
@@ -95,17 +110,21 @@ namespace HW4
             return new horse(h.studdedtire, h.horsepower / 20, horse.HorseMark.slow);
         }
     }
+
+    // классы, в которых более 5-10 строк, старайтесь выносить в отдельный файл
     class Car
     {
         public bool studdedtire = false;
         public int horsepower = 10;
         public Mark mark;
+
         public enum Mark
         {
             BMW,
             mitsubishi,
             nisan
         }
+
         public static explicit operator Car(horse h)
         {
             if (h.horsemark == horse.HorseMark.heavy)
@@ -118,6 +137,7 @@ namespace HW4
             }
             return new Car(h.horseshoe, h.horsepower * 10, Mark.nisan);
         }
+
         public Car(bool st, int hp, Mark mark_)
         {
             studdedtire = st;
@@ -126,13 +146,14 @@ namespace HW4
         }
 
     }
+
     public delegate double Function(double x);
 
     class Program
     {
-
         static void Main(string[] args)
         {
+            // да, функция должна всегда принадлежать какому-то классу
             double GetGas(Car someCar) // немного не понял почему нельзя в пространстве имён просто создать ф-цию
             {
                 return someCar.horsepower * 1.53;
@@ -150,7 +171,7 @@ namespace HW4
             ((secondSome)final).ToSome();
             ((firstSome)final).ToSome();
 
-
+            // задание 3
             double Integrate(Function f, double a, double b)
             {
                 // a < b
@@ -165,6 +186,7 @@ namespace HW4
             Console.WriteLine(Integrate(Math.Sin, 0, 1)); // точность - 4 знака после запятой
             Console.WriteLine(Integrate(Math.Cos, 0, 1));
 
+            // задание 4
             //вместо хомячков отсортирую лошадей
             List<horse> horses = new List<horse>();
             horses.Add(someHorse);
