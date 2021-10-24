@@ -6,32 +6,37 @@ namespace HW6
 {
     public class Lake : IEnumerable<int>
     {
-        int[] stones;
+        private int[] stones;
 
         public Lake(int[] _stones)
         {
             stones = _stones;
         }
+
         public IEnumerator<int> GetEnumerator()
         {
             return new LakeEnum(stones);
         }
-        private IEnumerator GetEnumerator1()
-        {
-            return this.GetEnumerator();
-        }
+
+        // этот метод для чего?
+        //private IEnumerator GetEnumerator1()
+        //{
+        //    return this.GetEnumerator();
+        //}
+
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return GetEnumerator1();
+            return GetEnumerator();
         }
 
         public class LakeEnum : IEnumerator<int>
         {
-            public int[] _stones;   
+            // поля всегда держите закрытыми. А свойства могут быть открытыми
+            private int[] _stones;   
 
             // Enumerators are positioned before the first element
             // until the first MoveNext() call.
-            int position = -1;
+            private int position = -1;
 
             public LakeEnum(int[] list)
             {
@@ -45,29 +50,38 @@ namespace HW6
                     position = 0;
                     return (position < _stones.Length);
                 }
-                if (position % 2 == 0 && ((_stones.Length-1) - position) >= 2)
+
+                // много лишних одинаковых проверок. можно сократить
+                if (position % 2 == 0)
                 {
-                    position += 2;
-                    return (position < _stones.Length) && position > 0;
-                }
-                if (position % 2 == 1)
+                    if (((_stones.Length - 1) - position) >= 2)
+                    {
+                        position += 2;
+                        return (position < _stones.Length) && position > 0;
+                    }
+                    if ((_stones.Length - 1) - position == 1)
+                    {
+                        position += 1;
+                        return true;
+                    }
+
+                    if ((_stones.Length - 1) - position == 0)
+                    {
+                        position -= 1;
+                        return (position < _stones.Length) && position > 0;
+                    }
+                }    
+                else // (position % 2 == 1)
                 {
                     position -= 2;
                     return (position < _stones.Length) && position > 0;
                 }
-                if(position % 2 == 0 && (_stones.Length - 1) - position == 1)
-                {
-                    position += 1;
-                    return true;
-                }
-                if (position % 2 == 0 && (_stones.Length - 1) - position == 0)
-                {
-                    position -= 1;
-                    return (position < _stones.Length) && position > 0;
-                }
+
+                // сюда, похоже, никогда не попадем
                 position++;
                 return (position < _stones.Length);
             }
+
             public void Dispose()
             { 
 
@@ -103,9 +117,10 @@ namespace HW6
         }
     }
 
+    // Задание Отсортируйте коллекцию
     public class Person
     {
-        public int age { get; set; }
+        public int Age { get; set; }
         public string Name { get; set; }
     }
 
@@ -126,9 +141,9 @@ namespace HW6
     {
         public int Compare(Person p1, Person p2)
         {
-            if (p1.age > p2.age)
+            if (p1.Age > p2.Age)
                 return 1;
-            else if (p1.age < p2.age)
+            else if (p1.Age < p2.Age)
                 return -1;
             else
                 return 0;
@@ -139,17 +154,20 @@ namespace HW6
     {
         internal T data;
         internal Node<T> next;
+        
         public Node(T d)
         {
             data = d;
             next = null;
         }
+
         internal void InsertFront(SingleLinkedList<T> singlyList, T new_data)
         {
             Node<T> new_node = new Node<T>(new_data);
             new_node.next = singlyList.head;
             singlyList.head = new_node;
         }
+
         internal void InsertLast(SingleLinkedList<T> singlyList, T new_data)
         {
             Node<T> new_node = new Node<T>(new_data);
@@ -161,6 +179,7 @@ namespace HW6
             Node<T> lastNode = GetLastNode(singlyList);
             lastNode.next = new_node;
         }
+
         internal Node<T> GetLastNode(SingleLinkedList<T> singlyList)
         {
             Node<T> temp = singlyList.head;
@@ -186,6 +205,7 @@ namespace HW6
             }
             return count;
         }
+
         internal bool DeleteNodebyKey(SingleLinkedList<T> singlyList, T key)
         {
             Node<T> temp = singlyList.head;
@@ -212,13 +232,10 @@ namespace HW6
         {
             return new Nodes(this);
         }
-        private IEnumerator GetEnumerator1()
-        {
-            return this.GetEnumerator();
-        }
+
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return GetEnumerator1();
+            return GetEnumerator();
         }
 
         public class Nodes : IEnumerator<T>
@@ -231,12 +248,14 @@ namespace HW6
 
             // Enumerators are positioned before the first element
             // until the first MoveNext() call.
-            int position = -1;
+            private int position = -1;
             private Node<T> current;
+            
             public Nodes(Node<T> _head)
             {
                 head = _head;
             }
+
             public bool MoveNext()
             {
                 if(head != null && position == -1)
@@ -245,14 +264,17 @@ namespace HW6
                     position = 0;
                     return true;
                 }
-                if(current!=null && current.next != null)
+
+                if(current != null && current.next != null)
                 {
                     current = current.next;
                     position += 1;
                     return true;
                 }
+
                 return false;
             }
+
             public void Dispose()
             {
 
@@ -266,10 +288,12 @@ namespace HW6
 
         }
     }
+
     internal class SingleLinkedList<T> where T : IComparable<T>
     {
         public Node<T> head { get; set; }
     }
+
     class Program
     {
         static void Main(string[] args)
@@ -289,25 +313,27 @@ namespace HW6
                 Console.WriteLine(a);
             }
             Console.ReadLine();
+
             Console.WriteLine("SECOND TASK ----------------------");
-            Person p1 = new Person { Name = "Bill", age = 34 };
-            Person p2 = new Person { Name = "Tom", age = 23 };
-            Person p3 = new Person { Name = "Alice", age = 21 };
+            Person p1 = new Person { Name = "Bill", Age = 34 };
+            Person p2 = new Person { Name = "Tom", Age = 23 };
+            Person p3 = new Person { Name = "Alice", Age = 21 };
             Person[] people = new Person[] { p1, p2, p3 };
             Array.Sort(people, new AgePeopleComparer());
 
             foreach (Person p in people)
             {
-                Console.WriteLine($"{p.Name} - {p.age}");
+                Console.WriteLine($"{p.Name} - {p.Age}");
             }
             Console.WriteLine("and now by name:");
             Array.Sort(people, new NamePeopleComparer());
 
             foreach (Person p in people)
             {
-                Console.WriteLine($"{p.Name} - {p.age}");
+                Console.WriteLine($"{p.Name} - {p.Age}");
             }
             Console.ReadLine();
+
             Console.WriteLine("THIRD TASK ----------------------");
             Node<int> head1 = new Node<int>(1);
             SingleLinkedList<int> list = new SingleLinkedList<int>();
