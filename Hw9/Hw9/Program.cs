@@ -10,11 +10,13 @@ namespace Hw9
         Dictionary<object, Tuple<DateTime, TItem>> _cache = new Dictionary<object, Tuple<DateTime, TItem>>();
         int maxSize = 1;
         int milis = 1500;
+
         public MyCache(int n)
         {
             _cache.EnsureCapacity(n);
             maxSize = n;
         }
+
         public bool Create(object key, TItem createItem)
         {
             if (!_cache.ContainsKey(key))
@@ -39,6 +41,7 @@ namespace Hw9
             }
             return false;
         }
+
         public TItem Get(object key)
         {
             if (!_cache.ContainsKey(key))
@@ -110,6 +113,7 @@ namespace Hw9
                 Console.WriteLine("Disposed" + i.ToString());
             }
         }
+
         static void Main(string[] args)
         {
             MyCache<obj> cache = new MyCache<obj>(4);
@@ -185,6 +189,7 @@ namespace Hw9
             // Как видим удалились только старые объекты. Последний остался.
             Console.ReadLine();
         }
+
         public static void OnFullGCApproachNotify()
         {
 
