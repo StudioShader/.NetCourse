@@ -34,6 +34,7 @@ namespace Hw10
         }
     }
 
+    // свои атрибуты лучше всегда называть с суффиксом *Attribute
     [System.AttributeUsage(System.AttributeTargets.Class |
                        System.AttributeTargets.Method)]
     public class Custom : System.Attribute
@@ -60,11 +61,13 @@ namespace Hw10
         {
             return 0;
         }
+
         [Custom("Andrew2", 5, "Method to determine something", "Jam", "Alexine")]
         public static long CalcAnotherData()
         {
             return 0;
         }
+
         public static long LiterallyNothing()
         {
             return 0;
@@ -93,13 +96,16 @@ namespace Hw10
                 }
                 Console.WriteLine(curent.IndexOf('('));
                 Console.WriteLine(curent.IndexOf(')'));
+		// обратите внимание на множество лишних повторяющихся операций curent.IndexOf('(')
                 string first = curent.Substring(0, curent.IndexOf('('));
+                // ? именование внутренней переменной
                 int INT = Int32.Parse(curent.Substring(curent.IndexOf('(') + 1, curent.Length - curent.IndexOf('(') - 2));
                 Console.WriteLine(first + "      _____________");
                 Console.WriteLine(INT + "      _____________");
                 bbType.GetMethod(first, BindingFlags.NonPublic | BindingFlags.Instance).Invoke(bb, new object[] { INT });
                 Console.WriteLine("=> " + bbType.GetField("innerValue", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(bb));
             }
+
             // SECOND TASK
             Console.WriteLine("__________XXX" + typeof(HealthScore) + "XXX_____________");
             Custom attr = (Custom)System.Attribute.GetCustomAttribute(typeof(HealthScore), typeof(Custom));
@@ -109,6 +115,7 @@ namespace Hw10
                 Console.WriteLine("Reviwer: " + reviewer);
             }
             Console.WriteLine(attr.author);
+
             foreach (var method in typeof(HealthScore).GetMethods())
             {
                 Console.WriteLine(method.Name + " _______ ");
